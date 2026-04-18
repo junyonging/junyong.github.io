@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta property="og:title" content="김준용 | Professional Portfolio">
+    <meta property="og:description" content="고려대학교 빅데이터사이언스 전공 & 학생회 사무국장의 데이터 포트폴리오">
+    <meta property="og:image" content="profile.png">
+    
+    <title>KIM JUNYONG | Professional Portfolio</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Noto+Sans+KR:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #a855f7;
+            --dark-bg: #000000;
+            --card-bg: #111111;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --ongoing: #10b981;
+        }
+
+        /* 기본 설정 */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Poppins', 'Noto Sans KR', sans-serif; 
+            background-color: var(--dark-bg); color: var(--text-main);
+            line-height: 1.7; overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 0 25px; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* TOP 버튼 */
+        #topBtn {
+            position: fixed; bottom: 30px; right: 25px; z-index: 99;
+            background: var(--primary); color: white; border: none;
+            width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
+            display: none; box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+            transition: 0.3s;
+        }
+
+        /* 네비게이션 */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(15px); z-index: 1000;
+        }
+        .logo { font-size: 1.3rem; font-weight: 800; color: var(--primary); letter-spacing: 2px; }
+
+        /* 히어로 */
+        .hero { padding: 180px 0 80px; text-align: center; }
+        .profile-wrap {
+            width: 160px; height: 160px; border-radius: 50%;
+            margin: 0 auto 35px; border: 4px solid var(--primary);
+            overflow: hidden; box-shadow: 0 0 50px rgba(99, 102, 241, 0.3);
+        }
+        .profile-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2; }
+        .hero p { color: var(--text-dim); font-size: 1.2rem; font-weight: 300; }
+
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 40px 0; }
+        .stat-card { background: var(--card-bg); padding: 20px; border-radius: 20px; text-align: center; border-bottom: 4px solid var(--primary); }
+        .stat-card h5 { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; letter-spacing: 1px; }
+        .stat-card p { font-size: 1.1rem; font-weight: 700; }
+
+        /* 섹션 헤더 */
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header span { color: var(--primary); font-size: 0.9rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+        .section-header h2 { font-size: 2rem; margin-top: 10px; font-weight: 800; }
+
+        /* 프로젝트 카드 */
+        .project-card { 
+            background: var(--card-bg); padding: 40px; border-radius: 30px; 
+            border: 1px solid rgba(255,255,255,0.05); margin-bottom: 40px;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative;
+        }
+        .project-card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        .badge-ongoing { position: absolute; top: 25px; right: 25px; font-size: 0.75rem; color: var(--ongoing); border: 1.5px solid var(--ongoing); padding: 4px 12px; border-radius: 50px; font-weight: 800; }
+        .project-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary); font-weight: 700; }
+        .project-card p { font-size: 1rem; color: var(--text-dim); line-height: 1.8; }
+        
+        .progress-bar { height: 8px; width: 100%; background: #222; border-radius: 10px; overflow: hidden; margin-top: 25px; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, var(--primary), var(--accent)); }
+
+        /* 타임라인 */
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to top, #333, var(--primary)); }
+        .t-item { position: relative; margin-bottom: 45px; padding-left: 55px; }
+        .t-item::after { content: ''; position: absolute; left: 8px; top: 6px; width: 16px; height: 16px; background: var(--dark-bg); border: 4px solid var(--primary); border-radius: 50%; z-index: 2; }
+        .t-item.current::after { background: var(--primary); box-shadow: 0 0 20px var(--primary); }
+        .t-content { background: var(--card-bg); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .t-date { font-size: 0.9rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; display: block; }
+        .t-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
+
+        /* 기술 스택 */
+        .skill-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+        .skill-badge { 
+            background: #1a1a1a; padding: 12px 25px; border-radius: 50px; 
+            font-size: 0.95rem; border: 1px solid #333; font-weight: 600; 
+            transition: 0.3s;
+        }
+        .skill-badge:hover { background: var(--primary); border-color: var(--primary); }
+
+        footer { padding: 100px 0 50px; text-align: center; border-top: 1px solid #111; }
+        .social a { color: #fff; font-size: 2rem; margin: 0 20px; transition: 0.3s; }
+        .social a:hover { color: var(--primary); transform: scale(1.2); }
+
+        @media (max-width: 600px) { 
+            .hero h1 { font-size: 2.5rem; } 
+            .section-header h2 { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="window.scrollTo(0,0)" id="topBtn"><i class="fa fa-arrow-up"></i></button>
+
+    <nav>
+        <div class="logo">KIM JUNYONG</div>
+        <div style="font-size: 0.85rem; color: var(--text-dim); font-weight: 700; letter-spacing: 1px;">BIG DATA ANALYST</div>
+    </nav>
+
+    <div class="container">
+        <section class="hero reveal">
+            <div class="profile-wrap"><img src="profile.png" alt="김준용"></div>
+            <h1>Logic in Numbers,<br>Magic in Action.</h1>
+            <p>데이터로 세상을 증명하고,<br>리더십으로 변화를 만듭니다.</p>
+            <div class="stats">
+                <div class="stat-card"><h5>Affiliation</h5><p>KOREA Univ.</p></div>
+                <div class="stat-card"><h5>Major</h5><p>Descriptive Statistics</p></div>
+            </div>
+        </section>
+
+        <section class="projects-container reveal">
+            <div class="section-header"><span>WORKS & PROJECTS</span><h2>핵심 프로젝트</h2></div>
+            
+            <div class="project-card">
+                <span class="badge-ongoing">Alpha Phase</span>
+                <h3>AI 기반 개인화 문화 큐레이션 시스템</h3>
+                <p>사용자의 <strong>여행 성향, 실시간 관심사, 과거 방문 데이터</strong>를 다각도로 분석하여 최적화된 문화 체험 코스를 설계하는 AI 알고리즘입니다. 단순 장소 추천을 넘어 사용자의 경험 가치를 극대화하는 맞춤형 큐레이션 엔진을 구축 중입니다.</p>
+                <div class="progress-bar"><div class="progress-fill" style="width: 60%;"></div></div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 12px; color: var(--ongoing); font-weight: 700;">
+                    <span>Status: 알고리즘 설계 및 데이터 모델링</span><span>60%</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <span class="badge-ongoing">In Progress</span>
+                <h3>캠퍼스 Wi-Fi 인프라 최적화 분석</h3>
+                <p>교내 네트워크 품질 불균형 문제를 해결하기 위해 <strong>공공정책관의 실측 데이터</strong>를 수집했습니다. 분석 결과를 토대로 실제 변화를 가져온 데이터 기반 행정 혁신 사례입니다.</p>
+                <div class="progress-bar"><div class="progress-fill" style="width: 85%;"></div></div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 12px; color: var(--ongoing); font-weight: 700;">
+                    <span>Status: 장비 교체 및 성과 측정</span><span>85%</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <h3 style="color: var(--accent);">통일 국가 거시 경제 지표 분석</h3>
+                <p>R 언어를 활용하여 통일 전후 국가의 <strong>10개 거시 경제 지표</strong> 변화를 시각화하고 통계적으로 분석했습니다. 데이터 모델링을 통해 정책적 인사이트를 도출한 전문 연구 결과물입니다.</p>
+                <div style="margin-top: 20px; display: flex; gap: 10px;">
+                    <span style="font-size: 0.8rem; color: var(--accent); background: rgba(168,85,247,0.1); padding: 5px 15px; border-radius: 8px; font-weight: 700;">#R_Language</span>
+                    <span style="font-size: 0.8rem; color: var(--ongoing); background: rgba(16,185,129,0.1); padding: 5px 15px; border-radius: 8px; font-weight: 700;">#Completed</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="timeline-container reveal">
+            <div class="section-header"><span>GROWTH PATH</span><h2>성장 타임라인</h2></div>
+            <div class="timeline">
+                <div class="t-item reveal"><span class="t-date">2026.10 - 2028.04</span><div class="t-content"><div class="t-title">제36보병사단 제108보병여단</div></div></div>
+                <div class="t-item current reveal"><span class="t-date">2026.04 - 현재</span><div class="t-content"><div class="t-title">제10대 공공정책대학 학생회 사무국장</div></div></div>
+                <div class="t-item reveal"><span class="t-date">2025.12 - 2026.03</span><div class="t-content"><div class="t-title">제38대 총학생회 문화기획국 차장</div></div></div>
+                <div class="t-item reveal"><span class="t-date">2025.04 - 2025.11</span><div class="t-content"><div class="t-title">제9대 공공정책대학 학생회 집행국원</div></div></div>
+                <div class="t-item reveal"><span class="t-date">2025.03 - 현재</span><div class="t-content"><div class="t-title">빅데이터사이언스학부 25학번 대표</div></div></div>
+                <div class="t-item reveal"><span class="t-date">2025.03</span><div class="t-content"><div class="t-title">고려대학교 세종캠퍼스 입학</div></div></div>
+                <div class="t-item reveal"><span class="t-date">2022.03 - 2025.02</span><div class="t-content"><div class="t-title">야탑고등학교 졸업</div></div></div>
+                <div class="t-item reveal"><span class="t-date">2019.03 - 2022.02</span><div class="t-content"><div class="t-title">백현중학교 졸업</div></div></div>
+            </div>
+        </section>
+
+        <section class="reveal" style="padding: 60px 0; text-align: center;">
+            <div class="section-header"><span>TECHNICAL SKILLS</span><h2>보유 역량</h2></div>
+            <div class="skill-grid">
+                <div class="skill-badge">Python (Pandas)</div>
+                <div class="skill-badge">R (ggplot2)</div>
+                <div class="skill-badge">SQL</div>
+                <div class="skill-badge">Statistics</div>
+                <div class="skill-badge">Data Visualization</div>
+                <div class="skill-badge">Leadership</div>
+            </div>
+        </section>
+
+        <section style="padding: 80px 0; text-align: center;" class="reveal">
+            <div class="section-header"><span>CONTACT</span><h2>Get In Touch</h2></div>
+            <div class="social">
+                <a href="mailto:your-email@korea.ac.kr"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/your-id" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p style="font-size: 0.85rem; color: #444; font-weight: 500;">&copy; 2026 Kim Junyong. Crafted with Logic & Passion.</p>
+    </footer>
+
+    <script>
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, observerOptions);
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        const topBtn = document.getElementById("topBtn");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+        };
+    </script>
+</body>
+</html>
